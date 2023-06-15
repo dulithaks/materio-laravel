@@ -11,17 +11,17 @@ import laravel from 'laravel-vite-plugin'
 export default defineConfig({
   plugins: [
     laravel({
-  input: ['resources/js/main.js'],
-  refresh: true,
-}),
+      input: ['resources/js/main.js'],
+      refresh: true,
+    }),
     vue({
-  template: {
-      transformAssetUrls: {
+      template: {
+        transformAssetUrls: {
           base: null,
           includeAbsolute: false,
+        },
       },
-  },
-}),
+    }),
     vueJsx(),
 
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
@@ -43,7 +43,11 @@ export default defineConfig({
       vueTemplate: true,
     }),
   ],
-  define: { 'process.env': {} },
+  define: { 
+    'process.env': {
+      'API_URL': 'http://localhost/api',
+    }, 
+  },
   resolve: {
     alias: {
       '@core-scss': fileURLToPath(new URL('./resources/styles/@core', import.meta.url)),

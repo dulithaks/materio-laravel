@@ -1,12 +1,17 @@
 <script setup>
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
-import {useTheme} from 'vuetify'
+import { useTheme } from 'vuetify'
 import logo from '@images/logo.svg?raw'
 import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
 import { ref } from 'vue'
+import { useAlertStore } from '@/stores/alert.store'
+import { useAuthStore } from '@/stores/auth.store'
+
+const alertStore = useAlertStore()
+const authStore = useAuthStore()
 
 const form = ref({
   username: '',
@@ -23,17 +28,32 @@ const authThemeMask = computed(() => {
 
 const isPasswordVisible = ref(false)
 
+console.log('import.meta.env.VITE_API_URL: ', process.env)
+
 const register = () => {
   console.log('register', form)
 
-  axios.post('/api/auth/register', {
+  authStore.register({
     name: form.value.username,
     email: form.value.email,
     password: form.value.password,
     c_password: form.value.password,
-  }).then(response => {
-    console.log('response >>>', response)
+  }).then(data => {
+      console.log('success', data)
+      alertStore.success(data.message)
+  },
+  error => {
+    console.log('error', error)
   })
+
+  // axios.post('/api/auth/register', {
+  //   name: form.value.username,
+  //   email: form.value.email,
+  //   password: form.value.password,
+  //   c_password: form.value.password,
+  // }).then(response => {
+  //   console.log('response >>>', response)
+  // })
 }
 </script>
 
@@ -46,7 +66,7 @@ const register = () => {
       <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
-            <div v-html="logo"/>
+            <div v-html="logo" />
           </div>
         </template>
 
@@ -136,9 +156,9 @@ const register = () => {
               class="d-flex align-center"
               cols="12"
             >
-              <VDivider/>
+              <VDivider />
               <span class="mx-4">or</span>
-              <VDivider/>
+              <VDivider />
             </VCol>
 
             <!-- auth providers -->
@@ -146,7 +166,7 @@ const register = () => {
               class="text-center"
               cols="12"
             >
-              <AuthProvider/>
+              <AuthProvider />
             </VCol>
           </VRow>
         </VForm>
