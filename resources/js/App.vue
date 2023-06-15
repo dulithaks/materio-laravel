@@ -1,9 +1,10 @@
 <script setup>
-import UpgradeToPro from '@/components/UpgradeToPro.vue'
+import Alert from '@/components/Alert.vue'
 </script>
 
 <template>
+  <Alert/>
   <VApp>
-    <RouterView />
+    <RouterView/>
   </VApp>
 </template>

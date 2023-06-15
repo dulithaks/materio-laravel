@@ -39,21 +39,12 @@ const register = () => {
     password: form.value.password,
     c_password: form.value.password,
   }).then(data => {
-      console.log('success', data)
-      alertStore.success(data.message)
+    alertStore.success(data.message)
   },
   error => {
     console.log('error', error)
+    alertStore.error("Something went wrong!")
   })
-
-  // axios.post('/api/auth/register', {
-  //   name: form.value.username,
-  //   email: form.value.email,
-  //   password: form.value.password,
-  //   c_password: form.value.password,
-  // }).then(response => {
-  //   console.log('response >>>', response)
-  // })
 }
 </script>
 
