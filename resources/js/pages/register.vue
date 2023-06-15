@@ -1,11 +1,12 @@
 <script setup>
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
-import { useTheme } from 'vuetify'
+import {useTheme} from 'vuetify'
 import logo from '@images/logo.svg?raw'
 import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
+import { ref } from 'vue'
 
 const form = ref({
   username: '',
@@ -21,6 +22,19 @@ const authThemeMask = computed(() => {
 })
 
 const isPasswordVisible = ref(false)
+
+const register = () => {
+  console.log('register', form)
+
+  axios.post('/api/auth/register', {
+    name: form.value.username,
+    email: form.value.email,
+    password: form.value.password,
+    c_password: form.value.password,
+  }).then(response => {
+    console.log('response >>>', response)
+  })
+}
 </script>
 
 <template>
@@ -32,7 +46,7 @@ const isPasswordVisible = ref(false)
       <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
-            <div v-html="logo" />
+            <div v-html="logo"/>
           </div>
         </template>
 
@@ -51,7 +65,7 @@ const isPasswordVisible = ref(false)
       </VCardText>
 
       <VCardText>
-        <VForm @submit.prevent="() => {}">
+        <VForm @submit.prevent="() => { register() }">
           <VRow>
             <!-- Username -->
             <VCol cols="12">
@@ -73,9 +87,9 @@ const isPasswordVisible = ref(false)
             <VCol cols="12">
               <VTextField
                 v-model="form.password"
-                label="Password"
-                :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                :type="isPasswordVisible ? 'text' : 'password'"
+                label="Password"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
               <div class="d-flex align-center mt-1 mb-4">
@@ -90,8 +104,8 @@ const isPasswordVisible = ref(false)
                 >
                   <span class="me-1">I agree to</span>
                   <a
-                    href="javascript:void(0)"
                     class="text-primary"
+                    href="javascript:void(0)"
                   >privacy policy & terms</a>
                 </VLabel>
               </div>
@@ -99,7 +113,6 @@ const isPasswordVisible = ref(false)
               <VBtn
                 block
                 type="submit"
-                to="/"
               >
                 Sign up
               </VBtn>
@@ -107,8 +120,8 @@ const isPasswordVisible = ref(false)
 
             <!-- login instead -->
             <VCol
-              cols="12"
               class="text-center text-base"
+              cols="12"
             >
               <span>Already have an account?</span>
               <RouterLink
@@ -120,20 +133,20 @@ const isPasswordVisible = ref(false)
             </VCol>
 
             <VCol
-              cols="12"
               class="d-flex align-center"
+              cols="12"
             >
-              <VDivider />
+              <VDivider/>
               <span class="mx-4">or</span>
-              <VDivider />
+              <VDivider/>
             </VCol>
 
             <!-- auth providers -->
             <VCol
-              cols="12"
               class="text-center"
+              cols="12"
             >
-              <AuthProvider />
+              <AuthProvider/>
             </VCol>
           </VRow>
         </VForm>
@@ -141,21 +154,21 @@ const isPasswordVisible = ref(false)
     </VCard>
 
     <VImg
-      class="auth-footer-start-tree d-none d-md-block"
       :src="authV1Tree"
       :width="250"
+      class="auth-footer-start-tree d-none d-md-block"
     />
 
     <VImg
       :src="authV1Tree2"
-      class="auth-footer-end-tree d-none d-md-block"
       :width="350"
+      class="auth-footer-end-tree d-none d-md-block"
     />
 
     <!-- bg img -->
     <VImg
-      class="auth-footer-mask d-none d-md-block"
       :src="authThemeMask"
+      class="auth-footer-mask d-none d-md-block"
     />
   </div>
 </template>
