@@ -10,7 +10,7 @@ export const useAlertStore = defineStore({
       this.alert = { message, type: 'success' }
     },
     error (message) {
-      this.alert = { message, type: 'danger' }
+      this.alert = { message, type: 'error' }
     },
     clear () {
       this.alert = null

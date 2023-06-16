@@ -13,10 +13,14 @@ function request (method) {
       method,
       headers: authHeader(url),
     }
+
+    requestOptions.headers['Accept'] = 'application/json'
+
     if (body) {
       requestOptions.headers['Content-Type'] = 'application/json'
       requestOptions.body = JSON.stringify(body)
     }
+    
     return fetch(url, requestOptions).then(handleResponse)
   }
 }
@@ -49,6 +53,7 @@ async function handleResponse (response) {
 
     // get error message from body or default to response status
     const error = (data && data.message) || response.status
+    
     return Promise.reject(error)
   }
 
